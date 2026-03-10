@@ -1,0 +1,1 @@
+ALTER TABLE public.products ADD COLUMN prep_time integer DEFAULT NULL;
