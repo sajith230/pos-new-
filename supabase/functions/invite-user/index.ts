@@ -1,6 +1,7 @@
 /// <reference types="@types/deno" />
 
-import { createClient } from "@supabase/supabase-js";
+// @ts-ignore - Deno supports npm: imports in Supabase Edge Functions
+import { createClient } from "npm:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -14,8 +15,8 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabaseUrl = Deno.env.get("APP_SUPABASE_URL")!;
+    const serviceRoleKey = Deno.env.get("APP_SUPABASE_SERVICE_ROLE_KEY")!;
 
     // Verify caller is authenticated
     const authHeader = req.headers.get("Authorization");
@@ -27,7 +28,7 @@ Deno.serve(async (req) => {
     }
 
     // Create client with caller's token to check admin status
-    const callerClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
+    const callerClient = createClient(supabaseUrl, Deno.env.get("APP_SUPABASE_ANON_KEY")!, {
       global: { headers: { Authorization: authHeader } },
     });
     const { data: { user: caller } } = await callerClient.auth.getUser();
