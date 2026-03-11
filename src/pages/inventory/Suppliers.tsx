@@ -73,7 +73,11 @@ export default function Suppliers() {
   }
 
   async function handleSave() {
-    const payload = { ...form, business_id: business!.id, payment_terms: Number(form.payment_terms) };
+    if (!business?.id) {
+      toast({ variant: 'destructive', title: 'Business setup required', description: 'Go to Settings → General Settings and create your business first.' });
+      return;
+    }
+    const payload = { ...form, business_id: business.id, payment_terms: Number(form.payment_terms) };
     let error;
     if (editing) { ({ error } = await supabase.from('suppliers').update(payload).eq('id', editing.id)); }
     else { ({ error } = await supabase.from('suppliers').insert(payload)); }

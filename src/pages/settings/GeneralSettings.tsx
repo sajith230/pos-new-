@@ -38,8 +38,9 @@ export default function GeneralSettings() {
         _address: form.address || null,
       });
       if (error) { toast({ variant: 'destructive', title: 'Error', description: error.message }); setSaving(false); return; }
-      toast({ title: 'Business Created', description: 'Please refresh the page to see changes.' });
+      toast({ title: 'Business Created', description: 'Reloading to apply changes...' });
       setSaving(false);
+      window.location.reload();
       return;
     }
 
